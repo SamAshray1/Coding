@@ -7,22 +7,24 @@ class Solution(object):
         
         stack = []
         currStr = ""
-        num = 0
+        currNum = 0
+        prevStr = ""
         for i in s:
             if i.isdigit():
-                num = num*10 + int(i)
+                currNum = currNum*10 + int(i)
             elif i == "[":
                 stack.append(currStr)
+                stack.append(currNum)
                 currStr = ""
+                currNum = 0
             elif i == "]":
-                currNum = num%10
-                num = num/10
-                stack.append(currNum*currStr)
-                currStr = ""
+                num = stack.pop()
+                prevStr = stack.pop()
+                currStr = prevStr + currStr*num
             else:
                 currStr += i
 
-            print(stack, currStr, num)
+            print(stack, currStr, currNum)
         
-        return stack
+        return currStr
                 
